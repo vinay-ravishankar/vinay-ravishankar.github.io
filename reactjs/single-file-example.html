@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My First React JS file</title>
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+    <style>
+            #myDiv {
+                background-color: blue;
+                height: 200px;
+                width: 200px;
+            }
+        </style>
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <hr />
+    <div id="react-container-babel"></div>
+    <hr />
+    <div id="react-component"></div>
+    <hr />
+    <div id="react-component-es6"></div>
+    <hr />
+    <div id="react-component-sfc"></div>
+    <hr />
+    <div id="react-component-props"></div>
+    <hr />
+    <div id="react-state"></div>
+    <hr />
+    <div id="react-container-mounting"></div>
+    <hr />
+    <div id="react-container-update"></div>
+    <hr />
+    
+    <script type="text/javascript">
+      ReactDOM.render(
+        React.createElement('div', null, 'Hello World'),
+        document.getElementById('react-container')
+      );
+    </script>
+
+    <script type="text/babel">
+      ReactDOM.render(<div>
+      <div>Hello World with babel method of declaration</div>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ul></div>,
+        document.getElementById('react-container-babel')
+      );
+    </script>
+    <script type="text/babel">
+    var MyComponent = React.createClass({
+      render(){
+        return <div>
+          <h1>Hello World</h1>
+          <p>My first React component</p>
+        </div>
+      }
+    });
+    ReactDOM.render(<MyComponent />, document.getElementById('react-component'));
+
+    //ES6 Coding
+    class MyComponentES6 extends React.Component{
+      render(){
+        return <div>
+          <h1>First React component with ES6</h1>
+          <p>{this.props.text}</p>
+        </div>
+      }
+    }
+    ReactDOM.render(<MyComponentES6 text="Properties component" />, document.getElementById('react-component-es6'));
+
+    //Stateless functional component
+    const MyComponentSFC = () => {
+        return <div>
+          <h1>First React component with <em>Stateless functional component</em></h1>
+        </div>
+    }
+    ReactDOM.render(<MyComponentSFC />, document.getElementById('react-component-sfc'));
+
+    //Component re-using with properties 
+    var MyCompProps = React.createClass({
+      render(){
+        return <div>
+          <h1>{this.props.text}</h1>
+          <p>{this.props.children}</p>
+        </div>
+      }
+    });
+
+    ReactDOM.render(<div>
+      <MyCompProps text="Using Properties">
+        This is first message
+      </MyCompProps>
+      <MyCompProps text="I am a Component">
+        This is sceond message
+      </MyCompProps>
+      <MyCompProps text="I am Re-used Component">
+        This is third message
+      </MyCompProps>
+    </div>, document.getElementById('react-component-props')
+    );
+
+
+    // Using State in ReactJS
+    var Checkbox = React.createClass({
+      getInitialState(){
+        return {checked: true}
+      },
+      handleCheck(){
+        this.setState({checked: !this.state.checked})
+      },
+      render(){
+        var msg = (this.state.checked) ? 'chekced' : 'unchekced';
+        return(
+          <div>
+            <h1>{this.props.children}</h1>
+            <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked} />
+            <p>This Checkbox is {msg}</p>
+          </div>
+        )
+      }
+    });
+    ReactDOM.render(<Checkbox>Using State in ReactJS</Checkbox>, document.getElementById('react-state'));
+
+
+    //Mounting Components
+    var Box = React.createClass({
+        componentWillMount() {
+            alert('Component is about to mount')
+        },
+        componentDidMount() {
+            alert('Component just mounted')
+        },
+        render() {
+            return (<div>
+            <h1>Mounting Components</h1>
+            <div id='myDiv'></div>
+            </div>)
+        }
+    })
+    ReactDOM.render(<Box />, 
+        document.getElementById('react-container-mounting'))
+
+    var getRidOfBox = document.getElementById('myDiv')
+    getRidOfBox.onclick = function() {
+        ReactDOM.unmountComponentAtNode(
+            document.getElementById('react-container-mounting'))
+            alert('component is unmounted')
+    }
+
+    // Updating Components
+    var UpdateBox = React.createClass({
+        getInitialState() {
+            return {
+                backgroundColor: 'purple',
+                height: 200,
+                width: 200
+            }
+        },
+        update() {
+            this.setState({backgroundColor: 'red'})
+        },
+        componentDidUpdate() {
+            alert("component did update!");
+        },
+        render() {
+            return (<div>
+            <h1>Updating Components</h1><div style={this.state}
+                         onClick={this.update}></div>
+                    </div>)
+        }
+    })
+
+    ReactDOM.render(<UpdateBox />, 
+        document.getElementById('react-container-update'))
+    </script>
+  </body>
+</html>
